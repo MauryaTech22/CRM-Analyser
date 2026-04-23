@@ -1,0 +1,212 @@
+/* --- CORE THEME & VARIABLES --- */
+:root {
+  --primary: #5b4efb;
+  --secondary: #0f172a;
+  --bg-app: #f4f7fe;
+  --white: #ffffff;
+  --border: #e2e8f0;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --shadow-sm: 0 4px 15px rgba(0,0,0,0.03);
+  --shadow-md: 0 8px 30px rgba(0,0,0,0.05);
+}
+
+body { font-family: 'Inter', sans-serif; background: var(--bg-app); margin: 0; color: var(--text-main); }
+* { box-sizing: border-box; }
+
+/* --- HEADER --- */
+.dash-header {
+  height: 70px; background: var(--secondary); display: flex; 
+  justify-content: space-between; align-items: center; padding: 0 2rem; color: white;
+  position: sticky; top: 0; z-index: 100;
+}
+.header-left { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.2rem; }
+.header-right { display: flex; align-items: center; gap: 15px; font-size: 0.9rem; color: #cbd5e1; }
+.menu-icon { background: white; color: black; border-radius: 4px; padding: 4px; cursor: pointer; display: none; }
+
+/* --- LAYOUT GRID --- */
+.dash-main-wrapper {
+  display: grid; grid-template-columns: 260px 1fr 320px;
+  gap: 1.5rem; padding: 2rem; max-width: 1600px; margin: 0 auto;
+}
+
+/* --- SIDEBAR --- */
+.dash-sidebar { display: flex; flex-direction: column; gap: 1.5rem; transition: left 0.3s ease; }
+
+.sidebar-profile-card { background: var(--white); border-radius: var(--radius-lg); padding: 2rem 1rem; text-align: center; box-shadow: var(--shadow-sm); }
+.sidebar-avatar { width: 80px; height: 80px; color: var(--primary); margin: 0 auto 1rem auto; }
+.sidebar-name { font-weight: 700; font-size: 1.1rem; }
+
+.sidebar-nav-card { background: var(--white); border-radius: var(--radius-lg); padding: 1rem; box-shadow: var(--shadow-sm); }
+.nav-item, .nav-item-btn {
+  display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; width: 100%;
+  border: none; background: none; color: var(--text-muted); cursor: pointer; 
+  border-radius: 8px; text-align: left; font-weight: 500; font-size: 0.9rem;
+}
+.nav-item-left { display: flex; align-items: center; gap: 12px; }
+.nav-item:hover, .nav-item-btn:hover { background: #f8fafc; }
+.nav-item.active { background: #eef2ff; color: var(--primary); font-weight: 600; }
+.nav-logout { border: 1px solid var(--border); margin-top: 1rem; justify-content: center; width: calc(100% - 2rem); margin-left: 1rem; padding: 8px; font-size: 0.85rem;}
+
+/* Sub-menu logic */
+.sub-menu { display: none; flex-direction: column; padding-left: 2.5rem; margin-top: 0.5rem; gap: 5px; }
+.nav-group.open .sub-menu { display: flex; }
+.sub-link-btn { padding: 8px 10px; font-size: 0.8rem; color: var(--text-muted); background: none; border: none; cursor: pointer; text-align: left; border-radius: 6px; display: flex; align-items: center; gap: 8px;}
+.sub-link-btn:hover { background: #f1f5f9; color: var(--primary); }
+
+.sidebar-integrity-card { background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow-sm); border: 1px solid #f1f5f9; }
+.integrity-header { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.85rem; margin-bottom: 15px; text-transform: uppercase;}
+.integrity-row { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; }
+.status-green { color: #10b981; font-weight: bold; }
+
+/* --- MAIN CONTENT --- */
+.content-header h2 { margin: 0 0 1rem 0; font-size: 1.8rem; font-weight: 700; }
+
+.clinical-banner { background: var(--primary); border-radius: var(--radius-lg); padding: 2rem; color: white; box-shadow: var(--shadow-md); margin-bottom: 1.5rem; }
+.banner-name { font-size: 2rem; font-weight: 700; margin-bottom: 5px; }
+.banner-sub { color: #c7d2fe; font-size: 0.9rem; margin-bottom: 1.5rem; }
+.banner-tags { display: flex; gap: 10px; flex-wrap: wrap; }
+.b-tag { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 30px; font-size: 0.8rem; font-weight: 500;}
+
+.vitals-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 1.5rem; }
+.vital-card { background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow-sm); text-align: center; }
+.vital-title { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 1rem; text-transform: uppercase; }
+.vital-value-row { display: flex; align-items: center; justify-content: center; gap: 15px; }
+.vital-icon { width: 40px; height: 40px; }
+.vital-num { font-size: 2rem; font-weight: 800; }
+.vital-unit { font-size: 1rem; font-weight: 600; color: var(--text-main); margin-top: 5px; }
+
+.summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+.summary-card { background: var(--white); padding: 1.5rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); }
+.summary-card h4 { margin: 0 0 10px 0; color: var(--text-muted); font-size: 0.9rem; }
+.summary-value { font-size: 2.5rem; font-weight: 800; color: var(--primary); display: flex; align-items: baseline; gap: 10px;}
+.summary-value span { font-size: 1.5rem; }
+.summary-status { margin-top: 5px; font-weight: 500; }
+
+.section-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-muted); display: flex; align-items: center; gap: 8px;}
+.forecast-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
+.forecast-card { background: var(--white); padding: 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
+.fc-header { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.95rem; margin-bottom: 1rem; }
+.fc-list { list-style: none; padding: 0; margin: 0 0 1rem 0; color: var(--text-muted); font-size: 0.85rem;}
+.fc-list li { margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.fc-list li::before { content: "○"; color: #cbd5e1; }
+.fc-status { font-size: 0.8rem; color: var(--text-muted); border-top: 1px dashed var(--border); padding-top: 1rem; }
+
+.ref-guide-card { background: white; padding: 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); display: flex; justify-content: space-between; gap: 2rem;}
+.ref-item { flex: 1; }
+.ref-head { font-weight: 600; font-size: 0.9rem; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;}
+.ref-bar-wrapper { display: flex; gap: 4px; height: 8px; margin-bottom: 5px; }
+.r-bar { height: 100%; border-radius: 4px; flex: 1; }
+.r-green { background: #10b981; } .r-yellow { background: #f59e0b; } .r-red { background: #ef4444; }
+.ref-labels { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); }
+
+/* --- RIGHT PANEL --- */
+.right-panel-card { background: var(--white); padding: 1.5rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); margin-bottom: 1.5rem; }
+.rp-header { font-size: 1rem; font-weight: 700; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 8px; }
+.status-bar-row { margin-bottom: 1rem; }
+.sb-labels { display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 600; margin-bottom: 5px; }
+.sb-track { height: 8px; background: var(--bg-app); border-radius: 10px; overflow: hidden; }
+.sb-fill { height: 100%; border-radius: 10px; transition: width 0.5s ease; }
+
+.ai-forecast-item { border: 1px solid #f1f5f9; padding: 1rem; border-radius: 10px; margin-bottom: 1rem; }
+.ai-fc-head { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 0.9rem; margin-bottom: 8px; }
+.ai-fc-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; line-height: 1.4; }
+.ai-tip { background: #eef2ff; color: var(--primary); padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; display: inline-block; }
+
+.btn-primary-new { background: var(--primary); color: white; width: 100%; border: none; padding: 14px; border-radius: 10px; font-weight: 600; font-size: 1rem; cursor: pointer; margin-top: 1rem;}
+
+/* --- MODALS --- */
+.modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.4); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 2000; }
+.modal-container { background: white; width: 95%; max-width: 950px; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-md); max-height: 90vh; display: flex; flex-direction: column;}
+.modal-header { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 1.2rem; font-weight: 700; color: #1e293b; background: white;}
+.modal-close { background: none; border: 1px solid var(--border); border-radius: 4px; padding: 4px; cursor: pointer; }
+.modal-body { padding: 2rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; overflow-y: auto; }
+.modal-footer { padding: 1rem 2rem 2rem; text-align: right; background: white;}
+.btn-save { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+
+.form-section-title { font-size: 0.9rem; font-weight: 600; color: var(--primary); display: flex; align-items: center; gap: 8px; margin-bottom: 1.5rem; }
+.input-group { margin-bottom: 1.2rem; }
+.input-group label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; }
+.input-group input, .input-group select, .input-group textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.9rem; }
+.row-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.upload-box { border: 2px dashed #cbd5e1; border-radius: 12px; padding: 2rem; text-align: center; cursor: pointer; color: var(--text-muted); background: #f8fafc; }
+
+/* REPORT VIEWER MODAL (From Old Code) */
+.report-viewer-card { width: 90%; max-width: 500px; padding: 0; border-radius: 20px; overflow: hidden; background: white; }
+.report-view-body { padding: 25px; }
+.risk-banner { text-align: center; padding: 15px; color: white; font-weight: 800; border-radius: 10px; margin-bottom: 20px; }
+.report-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.stat-pill { background: #f1f5f9; padding: 10px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; color: #475569; border: 1px solid #e2e8f0; }
+.report-narrative { font-size: 0.9rem; line-height: 1.6; color: #64748b; font-style: italic; }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1200px) {
+  .dash-main-wrapper { grid-template-columns: 240px 1fr; }
+  .dash-right-panel { display: none; }
+}
+
+@media (max-width: 768px) {
+  .menu-icon { display: block; }
+  .dash-main-wrapper { grid-template-columns: 1fr; padding: 1rem; }
+  .dash-sidebar { position: fixed; left: -100%; top: 70px; height: calc(100vh - 70px); width: 280px; z-index: 1500; overflow-y: auto;}
+  .dash-sidebar.active { left: 0; }
+  .vitals-grid, .summary-grid, .forecast-grid, .modal-body, .ref-guide-card { grid-template-columns: 1fr; gap: 1rem; flex-direction: column;}
+}
+/* --- DYNAMIC PATHOLOGICAL FORECAST CARDS --- */
+.forecast-card { 
+  background: var(--white); 
+  padding: 1.5rem; 
+  border-radius: var(--radius-md); 
+  box-shadow: var(--shadow-sm); 
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+/* When the AI detects a risk, the card gets a soft red tint */
+.forecast-card.warning-state {
+  background-color: #fffafb; 
+  border-color: #fecdd3; 
+}
+
+.fc-list li { 
+  margin-bottom: 12px; 
+  display: flex; 
+  align-items: flex-start; 
+  gap: 8px; 
+  line-height: 1.4; 
+}
+
+/* Default empty circle */
+.fc-list li::before { 
+  content: "○"; 
+  color: #cbd5e1; 
+  font-weight: bold; 
+}
+
+/* Highlighted danger item */
+.fc-list li.li-danger {
+  color: #ef4444;
+  font-weight: 700;
+}
+
+/* Filled red circle for danger item */
+.fc-list li.li-danger::before {
+  content: "●";
+  color: #ef4444;
+}
+
+.fc-status { 
+  font-size: 0.85rem; 
+  color: var(--text-muted); 
+  border-top: 1px dashed var(--border); 
+  padding-top: 1rem; 
+  line-height: 1.5; 
+}
+
+/* Darker text for the warning paragraph to ensure readability */
+.forecast-card.warning-state .fc-status {
+  color: #334155; 
+}

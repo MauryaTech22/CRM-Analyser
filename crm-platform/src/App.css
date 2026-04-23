@@ -1,0 +1,232 @@
+/* --- APP & AUTHENTICATION STYLES --- */
+* { box-sizing: border-box; }
+
+/* --- ANIMATED CLINICAL BACKGROUND --- */
+/* --- ANIMATED CLINICAL BACKGROUND --- */
+/* --- ANIMATED CLINICAL BACKGROUND --- */
+body { 
+  font-family: 'Inter', sans-serif; 
+  margin: 0; 
+  color: var(--text-main);
+  /* 1. The Breathing Gradient */
+  background: linear-gradient(-45deg, #f4f7fe, #e0e7ff, #f0fdf4, #e0f2fe);
+  background-size: 400% 400%;
+  animation: medicalGradient 15s ease infinite;
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+@keyframes medicalGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 2. The Clinical Data Grid */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-image: 
+    linear-gradient(rgba(91, 78, 251, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(91, 78, 251, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* 3. The AI Bio-Scan Line */
+body::after {
+  content: "";
+  position: fixed;
+  top: -20%; left: 0; width: 100vw; height: 25vh;
+  background: linear-gradient(to bottom, transparent, rgba(16, 185, 129, 0.05), transparent);
+  border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+  z-index: -1;
+  pointer-events: none;
+  animation: bioScan 8s linear infinite;
+}
+
+@keyframes bioScan {
+  0% { top: -20%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* 2. The Clinical Data Grid */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-image: 
+    linear-gradient(rgba(91, 78, 251, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(91, 78, 251, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* 3. The AI Bio-Scan Line */
+body::after {
+  content: "";
+  position: fixed;
+  top: -20%; left: 0; width: 100vw; height: 25vh;
+  background: linear-gradient(to bottom, transparent, rgba(16, 185, 129, 0.05), transparent);
+  border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+  z-index: -1;
+  pointer-events: none;
+  animation: bioScan 8s linear infinite;
+}
+
+@keyframes bioScan {
+  0% { top: -20%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+@keyframes medicalGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 2. The Clinical Data Grid */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-image: 
+    linear-gradient(rgba(91, 78, 251, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(91, 78, 251, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* 3. The AI Bio-Scan Line */
+body::after {
+  content: "";
+  position: fixed;
+  top: -20%; left: 0; width: 100vw; height: 25vh;
+  background: linear-gradient(to bottom, transparent, rgba(16, 185, 129, 0.05), transparent);
+  border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+  z-index: -1;
+  pointer-events: none;
+  animation: bioScan 8s linear infinite;
+}
+
+@keyframes bioScan {
+  0% { top: -20%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* Auth Page Background */
+.auth-page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #104ef1 0%, #00d4ff 100%);
+  padding: 2rem;
+}
+
+.auth-container {
+  display: flex;
+  width: 100%;
+  max-width: 1000px;
+  align-items: center;
+  gap: 4rem;
+}
+
+/* Left Branding Side */
+.auth-branding {
+  flex: 1;
+  color: white;
+}
+
+.auth-branding h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+}
+
+.auth-logo-placeholder {
+  width: 250px;
+  /* You can replace this img tag in App.js with your actual CRM logo */
+}
+
+/* Right Form Side (Glassmorphism) */
+.auth-form-card {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.auth-tabs {
+  display: flex;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  padding: 4px;
+}
+
+.auth-tab-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  background: transparent;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.auth-tab-btn.active {
+  background: white;
+  color: #104ef1;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.auth-input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.auth-submit-btn {
+  background: #153aa3;
+  color: white;
+  border: none;
+  padding: 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s ease;
+}
+
+.auth-submit-btn:hover {
+  background: #0f2b7a;
+}
