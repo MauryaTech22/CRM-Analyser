@@ -64,16 +64,12 @@ const Dashboard = ({ user, onLogout }) => {
       setLoading(false); 
     }
   };
-
   useEffect(() => {
     if (user) { getProfile(); fetchReports(); }
   }, [user]);
-
   const toggleSubMenu = (menu) => setSubMenus(prev => ({ ...prev, [menu]: !prev[menu] }));
   const handleInputChange = (e) => setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-
   // --- DATABASE DATA CLEANER ---
-  // This prevents the app from crashing when you submit empty fields
   const formatDataForDatabase = (data) => {
     const cleanData = { ...data };
     const numberColumns = ['age', 'weight', 'height', 'bp_sys', 'bp_dia', 'sugar', 'creatine','cholesterol', 'sleep'];
@@ -109,13 +105,11 @@ const Dashboard = ({ user, onLogout }) => {
       alert("Database Save Error: " + err.message); 
     }
   };
-
   // --- AI ANALYSIS, PDF & VAULT SAVING ---
   const runAnalysisAndDownload = async () => {
     setIsAnalysing(true);
     let finalData = { ...formData };
     let ocrLog = "Manual entry verified.";
-    
     try {
       // 1. OCR (Document Scan)
       if (selectedFiles.length > 0) {
@@ -135,34 +129,29 @@ const Dashboard = ({ user, onLogout }) => {
           ocrLog += ` Creatinine (${creatineMatch[1]}) extracted.`;
         }
       }
-
       // 2. Clean the data for the Strict SQL Database
       const safeData = formatDataForDatabase({ id: user.id, ...finalData });
-
       // 3. Save Profile Update to Supabase
       const { data: updatedProfile, error: profileErr } = await supabase
         .from('profiles')
         .upsert(safeData)
         .select()
         .single();
-      
       if (profileErr) throw profileErr;
-      
       setProfile(updatedProfile);
       setFormData(prev => ({ ...prev, ...updatedProfile })); 
-
       // 4. Risk Engine (Calculated safely locally)
       const calculateRisk = () => {
         // Step A: Min-Max Normalization to scale features to [0,1]
         const normC = Math.min(Math.max(((Number(safeData.bp_sys) || 120) - 90) / (200 - 90), 0), 1); 
         const normR = Math.min(Math.max(((Number(safeData.creatine) || 0.8) - 0.5) / (5.0 - 0.5), 0), 1); 
         const normM = Math.min(Math.max(((Number(safeData.sugar) || 90) - 70) / (300 - 70), 0), 1);
-        const normCh = Math.min(Math.max(((Number(safeData.cholesterol) || 200) - 150) / (300 - 150), 0), 1); // Cholesterol based
+        const normCh = Math.min(Math.max(((Number(safeData.cholesterol) || 200) - 150) / (300 - 150), 0), 1);
         
        const w1 = 0.1952; // ML-Trained Cardiac weight
         const w2 = 0.3052; // ML-Trained Renal weight
         const w3 = 0.4996; // ML-Trained Metabolic weight
-        
+
         const alpha = 0.10; // C-R interaction
         const beta = 0.10;  // R-M interaction
         const gamma = 0.10; // C-M interaction
@@ -176,9 +165,7 @@ const Dashboard = ({ user, onLogout }) => {
 
                   return Math.round(crs * 100); 
       };
-      
       const riskScore = calculateRisk();
-
       // Step D: Conditional Risk Classification based on paper thresholds
       let riskCategory = "Low Risk";
       if (riskScore >= 60) riskCategory = "High Risk";
@@ -186,7 +173,6 @@ const Dashboard = ({ user, onLogout }) => {
       // 5. Advanced PDF Generation
       const doc = new jsPDF();
       let y = 20; const margin = 20;
-
       const drawCard = (title, status, color) => {
         doc.setFillColor(248, 250, 252); doc.rect(margin, y, 170, 30, 'F');
         doc.setFillColor(color[0], color[1], color[2]); doc.rect(margin, y, 2, 30, 'F');
@@ -195,26 +181,19 @@ const Dashboard = ({ user, onLogout }) => {
         doc.setTextColor(30, 41, 59); doc.setFontSize(12); doc.text(`STATUS: ${status}`, margin + 5, y + 18);
         y += 35;
       };
-
       doc.setFillColor(15, 23, 42); doc.rect(0, 0, 210, 40, 'F');
       doc.setTextColor(255, 255, 255); doc.setFontSize(18); doc.text("CRM INTELLIGENT DIAGNOSTIC REPORT", margin, 25);
       doc.setFontSize(8); doc.text(doc.splitTextToSize(`DATA PROVENANCE: ${ocrLog}`, 170), margin, 33);
-
       y = 60;
       doc.setTextColor(30, 41, 59); doc.setFontSize(14); doc.text(`SYSTEMIC RISK SCORE: ${riskScore}%`, margin, y);
       y += 10;
-
       const cardiacStatus = Number(safeData.bp_sys) > 140 ? "Hypertensive Stress" : "Stable";
       drawCard("CARDIAC ANALYSIS", cardiacStatus, Number(safeData.bp_sys) > 140 ? [239, 68, 68] : [16, 185, 129]);
-      
       const renalStatus = Number(safeData.creatine) > 1.2 ? "Filtration Stress" : "Optimal";
       drawCard("RENAL ANALYSIS", renalStatus, Number(safeData.creatine) > 1.2 ? [245, 158, 11] : [16, 185, 129]);
-      
       const metaStatus = Number(safeData.sugar) > 140 ? "Glycemic Imbalance" : "Healthy";
       drawCard("METABOLIC ANALYSIS", metaStatus, Number(safeData.sugar) > 140 ? [239, 68, 68] : [16, 185, 129]);
-
       doc.save(`CRM_Report_${Date.now()}.pdf`);
-
       // 6. Vault Storage
       const { error: reportErr } = await supabase.from('reports').insert([{
         user_id: user.id,
@@ -222,14 +201,11 @@ const Dashboard = ({ user, onLogout }) => {
         report_data: safeData,
         risk_score: riskScore
       }]);
-      
       if (reportErr) throw reportErr;
-
       fetchReports();
       setShowClinicalModal(false);
       setSelectedFiles([]);
       alert("AI Sync Complete. Dashboard and Vault Updated!");
-
     } catch (err) { 
       console.error(err);
       alert("Analysis Error: " + err.message); 
@@ -237,10 +213,8 @@ const Dashboard = ({ user, onLogout }) => {
       setIsAnalysing(false); 
     }
   };
-
   if (loading) return <div>Loading Engine...</div>;
-
-  // DYNAMIC VARIABLES FOR UI (Safely parsed for display only)
+  // DYNAMIC VARIABLES FOR UI 
   const bmiValue = (profile?.weight && profile?.height) ? (profile.weight / (profile.height / 100) ** 2).toFixed(1) : '--';
   const sysBP = parseInt(profile?.bp_sys) || 0;
   const creatine = parseFloat(profile?.creatine) || 0;
@@ -264,9 +238,7 @@ const Dashboard = ({ user, onLogout }) => {
         </div>
         </div>
       </header>
-
       <div className="dash-main-wrapper">
-        
         {/* SIDEBAR */}
         <aside className={`dash-sidebar ${mobileMenu ? 'active' : ''}`}>
           <div className="sidebar-profile-card">
@@ -311,7 +283,6 @@ const Dashboard = ({ user, onLogout }) => {
             <div className="integrity-row" style={{marginTop:'15px', color:'#94a3b8', fontSize:'0.7rem'}}><FileText size={12}/> HIPAA Compliant</div>
           </div>
         </aside>
-
         {/* MAIN CONTENT */}
         <main className="dash-main-content">
           <div className="content-header"><h2>Clinical Overview</h2></div>
@@ -572,5 +543,4 @@ const Dashboard = ({ user, onLogout }) => {
     </div>
   );
 };
-
 export default Dashboard;
